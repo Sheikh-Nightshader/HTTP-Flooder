@@ -5,6 +5,7 @@ import random
 import time
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
+from fake_useragent import UserAgent
 
 class Colors:
     SUCCESS = '\033[92m'
